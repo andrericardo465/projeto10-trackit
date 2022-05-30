@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import {useState} from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import LoginPage from "./Components/LoginPage"
+import SignUpPage from "./Components/SignUp"
+import Today from "./Components/Today"
+import HistoryPage from "./Components/HistoryPage";
+import HabitsPage from "./Components/HabitsPage"
+
+import UserContext from "./Contexts/UserContext";
+
+
+export default function App(){
+    const[usuario, setUsuario]=useState()
+    const[numeroDeHabitos, setNumeroDeHabitos] = useState(0);
+    const[numeroDeHabitosConcluidos, setnumeroDeHabitosConcluidos] = useState(0);
+    const[progresso, setProgresso] = useState(0)
+    
+    
+    return(
+        <UserContext.Provider value={{
+            usuario, setUsuario, 
+            numeroDeHabitos, setNumeroDeHabitos, 
+            numeroDeHabitosConcluidos, setnumeroDeHabitosConcluidos,
+            progresso, setProgresso,
+            }}>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<LoginPage />} />
+                <Route path="/cadastro" element={<SignUpPage />}  />
+                <Route path="/hoje" element={<Today />} />
+                <Route path="/historico" element={<HistoryPage />}/>
+                <Route path="/habitos" element={<HabitsPage />}/>
+            </Routes>
+        </BrowserRouter>
+    </UserContext.Provider>
+    )
 }
-
-export default App;

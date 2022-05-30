@@ -48,6 +48,8 @@ const Header = styled.div`
 
     .circle-progress{
         width: 90%;
+        max-width: 400px
+        max
         margin: 0 10px;
     }
 `

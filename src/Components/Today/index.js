@@ -48,7 +48,7 @@ export default function Today(){
                     </TodayHabits>
                 )
                 }
-                <Menu></Menu>
+                <Menu max-width={300}></Menu>
             </Container>
         </>
         

@@ -6,22 +6,22 @@ import {ContainerHabitoToday, TitleHabito, Subtitle,Sequencia, Recorde,Check} fr
 
 
 export default function TodayHabits({habit}){
-    const[concluido, setConcluido]=useState(habit.done)
-    const {usuario, setnumeroDeHabitosConcluidos, numeroDeHabitosConcluidos, numeroDeHabitos, setProgresso,} = useContext(UserContext)
+    const[completed, setCompleted]=useState(habit.done)
+    const {users, numberOfHabits, completedHabits, setCompletedHabits, setProgress,} = useContext(UserContext)
 
 
-    function habitoCheck(){
+    function checkHabits(){
         
         const config = {
 
             headers: {
-                "Authorization": `Bearer ${usuario.token}`
+                "Authorization": `Bearer ${users.token}`
             }
         }
         const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habit.id}/check`, " ", config)
         promise.then(()=>{
-            setConcluido(!concluido);
-            setnumeroDeHabitosConcluidos(numeroDeHabitosConcluidos + 1);
+            setCompleted(!completed);
+            setCompletedHabits(completedHabits + 1);
                     habit.currentSequence++;
                     habit.highestSequence++;
         }
@@ -34,20 +34,20 @@ export default function TodayHabits({habit}){
         const config = {
 
             headers: {
-                "Authorization": `Bearer ${usuario.token}`
+                "Authorization": `Bearer ${users.token}`
             }
         }
         const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habit.id}/uncheck`, "" ,config)
         promise.then(()=>{
-            setConcluido(!concluido);
-            setnumeroDeHabitosConcluidos(numeroDeHabitosConcluidos - 1);
+            setCompleted(!completed);
+            setCompletedHabits(completedHabits - 1);
             habit.currentSequence--;
             habit.highestSequence--;
 
         })
         promise.catch(erro => alert(erro))
 
-        setProgresso(Math.round((numeroDeHabitosConcluidos / numeroDeHabitos) * 100));
+        setProgress(Math.round((completedHabits / numberOfHabits) * 100));
 }
     return(
 
@@ -56,9 +56,9 @@ export default function TodayHabits({habit}){
                             <TitleHabito>{habit.name}</TitleHabito>
                             <Subtitle>Sequencia atual:
                                 {habit.currentSequence === 1 ?
-                                    <Sequencia done={concluido}> {habit.currentSequence} dia</Sequencia>
+                                    <Sequencia done={completed}> {habit.currentSequence} dia</Sequencia>
                                     :
-                                    <Sequencia done={concluido}> {habit.currentSequence} dias</Sequencia>
+                                    <Sequencia done={completed}> {habit.currentSequence} dias</Sequencia>
                                 } 
                             </Subtitle>
                             <Subtitle>Seu recorde: 
@@ -69,7 +69,7 @@ export default function TodayHabits({habit}){
                                 }
                             </Subtitle>
                         </div>
-                        <Check  onClick={concluido ? ()=>habitoUncheck() : ()=>habitoCheck()} feito={concluido}>
+                        <Check  onClick={completed ? ()=>habitoUncheck() : ()=>checkHabits()} feito={completed}>
                             <ion-icon name="checkmark-outline" ></ion-icon>
                         </Check>
                     </ContainerHabitoToday>                            

@@ -11,18 +11,18 @@ import UserContext from "./Contexts/UserContext";
 
 
 export default function App(){
-    const[usuario, setUsuario]=useState()
-    const[numeroDeHabitos, setNumeroDeHabitos] = useState(0);
-    const[numeroDeHabitosConcluidos, setnumeroDeHabitosConcluidos] = useState(0);
-    const[progresso, setProgresso] = useState(0)
+    const[users, setUsers]=useState()
+    const[numberOfHabits, setNumberOfHabits] = useState(0);
+    const[completedHabits, setCompletedHabits] = useState(0);
+    const[progress, setProgress] = useState(0)
     
     
     return(
         <UserContext.Provider value={{
-            usuario, setUsuario, 
-            numeroDeHabitos, setNumeroDeHabitos, 
-            numeroDeHabitosConcluidos, setnumeroDeHabitosConcluidos,
-            progresso, setProgresso,
+            users, setUsers, 
+            numberOfHabits, setNumberOfHabits, 
+            completedHabits, setCompletedHabits,
+            progress, setProgress,
             }}>
         <BrowserRouter>
             <Routes>

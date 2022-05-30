@@ -9,7 +9,15 @@ export default function HistoryPage(){
             <Topo></Topo>
             <Title>Histórico</Title>
             <Message>Em breve você poderá ver o histórico dos seus hábitos aqui!</Message>
-            <Menu> {/*Colocar o calendario aqui*/} </Menu>
+            <Menu> 
+                {/*
+            <Calendar   onChange={onChange}
+                            value={value}
+                            locale='pt-br'
+                            calendarType='US'
+                            />
+                            */}
+            </Menu>
         </Container>
     )
 }

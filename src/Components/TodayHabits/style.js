@@ -7,7 +7,7 @@ const Container = styled.div`
     justify-content: space-between;
 `
 const Title = styled.div`
-    font-family: 'Lexend Deca', sans-serif;
+    font-family: 'Raleway';
     font-size: 23px;
     color: #126BA5;
     font-weight: 400;
@@ -16,11 +16,9 @@ const Title = styled.div`
     padding-left: 20px;
 `
 const Message = styled.div`
-
-
     padding-left: 20px;
     margin-top: 10px;
-    font-family: 'Lexend Deca', sans-serif;
+    font-family: 'Raleway';
     font-size: 18px;
     font-weight: 400;
     color: #BABABA;
@@ -41,29 +39,30 @@ const ContainerHabitoToday = styled.div`
 
     position: relative;
     ion-icon {
-        --ionicon-stroke-width: 70px;
+        font-size: 50px;
     }
 `
 const TitleHabito = styled.div`
-    font-family: 'Lexend Deca', sans-serif;
+    font-family: 'Raleway';
     font-size: 23px;
     color: #666666;
     font-weight: 400;
+    margin: 5px 0
 
 `
 const Subtitle = styled.div`
-    font-family: 'Lexend Deca', sans-serif;
+    font-family: 'Raleway';
     color: #666666;
     font-size: 13px;
-    font-weight: 400;
+    font-weight: 500;
 
 `
 const Sequencia = styled.span`
-    color: ${props => props.done ? "#8FC549" : "#666666"}; 
+    color: ${props => props.done ? "#E05256" : "#666666"}; 
 `;
 
 const Recorde = styled.span`
-    color: ${props => props.recorde ? "#8FC549" : "#666666"}; 
+    color: ${props => props.recorde ? "#E05256" : "#666666"}; 
 `
 
 
@@ -72,13 +71,13 @@ const Check = styled.div`
     height: 69px;
     min-width: 69px;
     max-height: 69px;
-    border-radius: 5px;
+    border-radius: 50px;
     font-size: 44px;
     color: #FFF;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: ${props => props.feito ? "#8FC549" : "#EBEBEB"};
+    background-color: ${props => props.feito ? "#E05256" : "#F3BABC"};
     transition: 300ms;
 `;
 

@@ -6,19 +6,19 @@ import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
 export default function Menu(){
-    const {progresso, setProgresso, numeroDeHabitos, numeroDeHabitosConcluidos } = useContext(UserContext)
-    setProgresso(Math.round((numeroDeHabitosConcluidos/numeroDeHabitos)*100));
+    const {progress, setProgress, numberOfHabits, completedHabits } = useContext(UserContext)
+    setProgress(Math.round((completedHabits/numberOfHabits)*100));
     
 
     return(
        <Header>
            <Option to="/habitos">Hábitos</Option>
            <Link to={'/hoje'}>
-            <div style={{ width: 250, height: 250 }}>
+            <div class="circle-progress">
                 <CircularProgressbar  
                 minValue={0}
                 maxValue={100}
-                value={progresso}
+                value={progress}
                 text="Hoje"
                 background={true}
                 styles={buildStyles({
@@ -45,9 +45,14 @@ const Header = styled.div`
     align-items: center;
     position: fixed;
     bottom: 0;
+
+    .circle-progress{
+        width: 90%;
+        margin: 0 10px;
+    }
 `
 const Option = styled(Link)`
     font-size: 30px;
     color: #fff;
-    margin: auto 80px;
+    margin: auto 20px;
 `

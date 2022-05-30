@@ -4,12 +4,12 @@ import UserContext from "../../../Contexts/UserContext"
 
 export default function Topo(){
 
-    const{usuario} = useContext(UserContext)
+    const{users} = useContext(UserContext)
 
     return(
        <Header>
            <Title>TrackIt</Title>
-           <Imagem src={usuario.image}></Imagem>
+           <Imagem src={users.image}></Imagem>
        </Header>
     )
 }
@@ -30,8 +30,10 @@ const Header = styled.div`
     
 `
 const Title = styled.div`
-    
-    font-size: 40px;
+    font-family: 'Raleway';
+    font-weight: 500;
+    font-style: italic;
+    font-size: 50px;
     color: #FFF;
     margin: auto 20px;
     

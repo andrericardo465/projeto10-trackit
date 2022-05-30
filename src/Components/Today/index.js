@@ -13,40 +13,37 @@ import TodayHabits from "../TodayHabits"
 
 
 export default function Today(){
-    const {usuario, setnumeroDeHabitosConcluidos, setNumeroDeHabitos} = useContext(UserContext)
-    const {progresso} = useContext(UserContext)
-    const[habito, setHabito] = useState([])
-    
-    
-
+    const {users, setCompletedHabits, setNumberOfHabits} = useContext(UserContext)
+    const {progress} = useContext(UserContext)
+    const[habits, setHabits] = useState([])
 
     function getTodayHabit(){
 
         const config = {
 
             headers: {
-                "Authorization": `Bearer ${usuario.token}`
+                "Authorization": `Bearer ${users.token}`
             }
         }
 
         const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today", config)
         promise.then(response => {
-            setHabito(response.data);
-            setnumeroDeHabitosConcluidos(response.data.filter(habito => habito.done).length);
-            setNumeroDeHabitos(response.data.length)
+            setHabits(response.data);
+            setCompletedHabits(response.data.filter(habits => habits.done).length);
+            setNumberOfHabits(response.data.length)
             }
             )
             
     }
-    useEffect((getTodayHabit), [])
+    useEffect((getTodayHabit))
 
     return(
         <>
             <Container>
                 <Topo></Topo>
                 <Title>{dayjs().locale('pt-br').format('dddd, DD/MM')}</Title>
-                <Message>{progresso === 0 ? "Nenhum hábito completed ainda!" : progresso + "% dos hábitos concluídos" }</Message>
-                {habito.map((habit)=>
+                <Message>{progress === 0 ? "Nenhum hábito completed ainda!" : progress + "% dos hábitos concluídos" }</Message>
+                {habits.map((habit)=>
                     <TodayHabits habit = {habit} key={habit.id}>
                     </TodayHabits>
                 )

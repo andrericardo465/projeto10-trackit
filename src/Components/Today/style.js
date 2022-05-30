@@ -9,19 +9,17 @@ const Container = styled.div`
     justify-content: space-between;
 `
 const Title = styled.div`
-    font-size: 23px;
-    color: #126BA5;
+    font-size: 25px;
+    color: #E05256;
     font-weight: 400;
 
     padding-top: 100px;
     padding-left: 20px;
 `
 const Message = styled.div`
-
-
     padding-left: 20px;
     margin-top: 10px;
-    font-family: 'Lexend Deca', sans-serif;
+    font-family: 'Raleway'
     font-size: 18px;
     font-weight: 400;
     color: #BABABA;
@@ -42,7 +40,7 @@ const ContainerHabitoToday = styled.div`
 
     position: relative;
     ion-icon {
-        --ionicon-stroke-width: 70px;
+        font-size: 70px;
     }
 `
 const TitleHabito = styled.div`

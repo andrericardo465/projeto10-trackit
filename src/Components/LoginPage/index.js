@@ -13,14 +13,13 @@ import Loading from "../Utils/Loading";
 
 
 export default function LoginPage(){
-    const {setUsuario} = useContext(UserContext)
+    const {setUsers} = useContext(UserContext)
     const[email, setEmail]= useState('')
     const[password, setPassword] = useState('')
     const[button, setButton] = useState(true)
-
     const navigate = useNavigate();
 
-    function handleSignUp(e){
+    function SingUp(e){
         e.preventDefault();
 
         const user = {
@@ -30,7 +29,7 @@ export default function LoginPage(){
 
         const promise =  axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login', user);
                 promise.then( response=>{
-                    setUsuario(response.data);
+                    setUsers(response.data);
                     navigate('/hoje')
                 } 
                 );
@@ -44,13 +43,11 @@ export default function LoginPage(){
                 );
     }
 
-    // if(usuario.token) navigate.push("/hoje")
-
     return(
         <>
             <ContanierForm>
                 <img className="logo" src={logo} alt="logo"/>
-                    <form onSubmit={handleSignUp}>
+                    <form onSubmit={SingUp}>
                         <Input 
                         type='email' 
                         placeholder="Email" 

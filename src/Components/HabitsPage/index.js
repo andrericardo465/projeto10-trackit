@@ -3,7 +3,7 @@ import {useState, useContext, useEffect} from "react"
 import UserContext from "../../Contexts/UserContext"
 
 import styled from "styled-components"
-import {Title, Message, ContainerTitle, Add, Titlehabits} from "./style"
+import {Title, Message, ContainerTitle, Add, Titlehabits, Habits, CriarHabito} from "./style"
 import Menu from "../Utils/Menu"
 import Topo from "../Utils/Topo"
 import Input from "../Utils/Input";
@@ -12,11 +12,11 @@ import Loading from "../Utils/Loading";
 
 
 export default function HabitsPage(){
-    const[habito, setHabito] = useState([])
-    const[adicionarHabito, setAdicionarHabito] = useState(false);
-    const[nomeHabito, setNomeHabito]=useState()
-    const {numeroDeHabitos, setNumeroDeHabitos} = useContext(UserContext)
-    const {usuario} = useContext(UserContext)
+    const[habits, setHabits] = useState([])
+    const[addHabits, setAddHabits] = useState(false);
+    const[habitsName, setHabitsName]=useState()
+    const {numberOfHabits, setNumberOfHabits} = useContext(UserContext)
+    const {users} = useContext(UserContext)
 
     const [day0, setDay0] = useState(false);
     const [day1, setDay1] = useState(false);
@@ -26,7 +26,7 @@ export default function HabitsPage(){
     const [day5, setDay5] = useState(false);
     const [day6, setDay6] = useState(false);
     const [button, setButton] = useState(true);
-    const DiasSelecionados = [];
+    const selectedDays = [];
 
     const weekdays = [
         {
@@ -73,69 +73,69 @@ export default function HabitsPage(){
         }
     ]
 
-    weekdays.map((weekday)=>weekday.day ? DiasSelecionados.push(weekday.id) : "")
+    weekdays.map((weekday)=>weekday.day ? selectedDays.push(weekday.id) : "")
 
 
     function postHabit(){
         setButton(false);
         const body = {
-            name: nomeHabito,
-            days: DiasSelecionados
+            name: habitsName,
+            days: selectedDays
         }
         const config = {
             headers: {
-                "Authorization": `Bearer ${usuario.token}`
+                "Authorization": `Bearer ${users.token}`
             }
         }
 
         const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", body, config)
         promise.then(()=>{setButton(true);
-            setAdicionarHabito(false);
-            setNomeHabito("");
-            setNumeroDeHabitos(numeroDeHabitos + 1);
-            getHabito()
+            setAddHabits(false);
+            setHabitsName("");
+            setNumberOfHabits(numberOfHabits + 1);
+            getHabits()
             
 
         })
         promise.catch(()=>{
             alert('erro');
-            setNomeHabito("");
+            setHabitsName("");
             setButton(true)
 
 
         })
     }
 
-    function deletarHabito(id){
+    function deleteHabits(id){
         if(!window.confirm("Deseja deletar a tarefa?")) return;
         const config = {
             headers: {
-                "Authorization": `Bearer ${usuario.token}`
+                "Authorization": `Bearer ${users.token}`
             }
         };
         const promise = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`, config)
             promise.then(() => {
-                setNumeroDeHabitos(numeroDeHabitos - 1);
-                getHabito();
+                setNumberOfHabits(numberOfHabits - 1);
+                getHabits();
             })
             promise.catch(() => alert("Erro"));
     }
 
-    function getHabito(){
+    function getHabits(){
             const config = {
                 headers: {
-                    "Authorization": `Bearer ${usuario.token}`
+                    "Authorization": `Bearer ${users.token}`
                 }
             }
 
             const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", config);
             promise.then((response)=>
-            setHabito(response.data)
+            setHabits(response.data)
             );
             promise.catch(()=>alert("Erro"));
     }
 
-    useEffect((getHabito), [])
+    useEffect((getHabits))
 
     
     return(
@@ -143,85 +143,67 @@ export default function HabitsPage(){
             <Topo></Topo>
                 <ContainerTitle>
                     <Title>Meus Hábitos</Title>
-                    <Add onClick={()=> setAdicionarHabito(true) }>+</Add>
+                    <Add onClick={()=> setAddHabits(true) }>+</Add>
                 </ContainerTitle>
-                    {adicionarHabito ?
+                    {addHabits ?
                     
-                        <div className="criarHabito">
-                        <Input placeholder="Nome do hábito" value={nomeHabito} onChange={(e)=>setNomeHabito(e.target.value)} disabled={!button} ></Input>
-                        <Weekdays>
-                            {weekdays.map((weekday, i)=>
-                            button?
-                            <Weekday
-                            isSelected={weekday.day}
-                            onClick={()=>weekday.setDay(!weekday.day)}
-                            key={i}
-                            >
-                                {weekday.name}
-                            </Weekday>
-                            :
-                            <Weekday
-                            isSelected={weekday.day}
-                            key={i}
-                            > {weekday.name}
-                            </Weekday>
-                            )}
-                        </Weekdays>
-
-                        <ContainerButtons>
-                            <StyledButton
-                                fontSize={16}
-                                width={84}
-                                height={35}
-                                theme="white"
-                                onClick={()=>setAdicionarHabito(false)}>
-                                Cancelar
-                            </StyledButton>
-                            {button ?
-                                <StyledButton
-                                    fontSize={16}
-                                    width={84}
-                                    height={35}
-                                    onClick={postHabit}>
-                                Salvar
-                                </StyledButton>
+                        <CriarHabito>
+                            <Input placeholder="Nome do hábito" value={habitsName} onChange={(e)=>setHabitsName(e.target.value)} disabled={!button} ></Input>
+                            <Weekdays>
+                                {weekdays.map((weekday, i)=>
+                                button ?
+                                <Weekday isSelected={weekday.day} onClick={()=>weekday.setDay(!weekday.day)} key={i} >
+                                    {weekday.name}
+                                </Weekday>
                                 :
-                                <StyledButton
+                                <Weekday isSelected={weekday.day} key={i} > 
+                                    {weekday.name}
+                                </Weekday>
+                                )}
+                            </Weekdays>
 
-                                width={84}
-                                height={35}>
-                                <Loading height={35} width={43} />
+                            <ContainerButtons>
+                                <StyledButton fontSize={15} width={85} height={35} theme="#fff" onClick={()=>setAddHabits(false)}>
+                                        Cancelar
                                 </StyledButton>
-                            }
+                                {button ?
+                                    <StyledButton fontSize={16} width={85} height={35} onClick={postHabit}>
+                                        Salvar
+                                    </StyledButton>
+                                    :
+                                    <StyledButton width={84} eight={35}>
+                                    <Loading/>
+                                    </StyledButton>
+                                }
 
 
 
-                        </ContainerButtons>
-                        </div>
+                            </ContainerButtons>
+                        </CriarHabito>
 
                     :
                     ""
                     }
-                    {habito.length > 0 ?
-                        habito.map((habito, i)=> 
-                        <>
-                            <Titlehabits>{habito.name}</Titlehabits>
-                            <div>
-                            <ion-icon className="lixo" name="trash-outline" onClick={()=>deletarHabito(habito.id)}></ion-icon>
+                    {habits.length > 0 ?
+                        habits.map((habits, i)=> 
+                        <Habits>
+                            <div className="headerBox">
+                                <Titlehabits>{habits.name}</Titlehabits>
+                                <ion-icon className="lixo" name="trash-outline" onClick={()=>deleteHabits(habits.id)}></ion-icon>
                             </div>
                             <Weekdays>
                                 {weekdays.map((weekday, i)=>
                                     <Weekday
-                                    isSelected={habito.days.includes(weekday.id)}
+                                    isSelected={habits.days.includes(weekday.id)}
                                     key={i}
                                     > {weekday.name}
                                     </Weekday>
                                 )}
                             </Weekdays>
-                        </>
+                        </Habits>
                         )
                         :
-                        <Message>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</Message>
+                        <Message>Você não tem nenhum hábito cadastrado ainda!</Message>
                 }  
             <Menu></Menu>
         </>
@@ -232,54 +214,47 @@ export default function HabitsPage(){
 const Weekday = styled.div`
     height: 28px;
     width: 28px;
-    border-radius: 5px;
-    border: 1px solid ${props => props.isSelected ? "#CFCFCF" : "#D4D4D4"};
-    background-color: ${props => props.isSelected ? "#CFCFCF" : "#FFF"};
-    color: ${props => props.isSelected ? "#FFF" : "#DBDBDB"};
-    font-family: Lexend Deca;
-    font-size: 20px;
+    border-radius: 10px;
+    border: 1px solid ${"#ED979A"};
+    background-color: ${props => props.isSelected ? "#E56B6F" : "#FFF"};
+    color: ${props => props.isSelected ? "#FFF" : "#ED979A"};
+    font-size: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 2px;
-
-    &:first-child {
-        margin-left: 0px;
-    }
+    text-align: center;
 `;
 
 const Weekdays = styled.div`
-    height: 30px;
-    width: 250px;
-    border-radius: 5px;
+    height: 35px;
+    width: 300px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 4px 0px;
-    
-
+    gap: 10px;
+    margin: 10px 0;
 `;
 
 const ContainerButtons = styled.div`
     display: flex;
-    margin-top: 24px;
-    margin-left: calc(100% - 184px);
+    margin: 10px 50px;
     gap: 10px;
 `;
 
 const StyledButton = styled.button`
-    background-color: ${props => props.theme === "white" ? "#FFF" : "#52B6FF"};
+    background-color: ${props => props.theme === "#fff" ? "#ED979A" : "#E56B6F"};
     width: ${props => props.width ? `${props.width}px` : "100%"};
-    height: ${props => props.height ? `${props.height}px` : "45px"};
+    height: ${props => props.height ? `${props.height}px` : "50px"};
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: ${props => props.fontSize ? `${props.fontSize}px` : "20px"};
-    color: ${props => props.theme === "white" ? "#52B6FF" : "#FFF"};
-    margin: 5px 0px;
-    opacity: ${props => props.loading ? 0.7 : 1.0};
+    font-size: ${props => props.fontSize ? `${props.fontSize}px` : "20rem"};
+    color: ${props => props.theme === "#FFF" ? "FFF" : "#FFF"};
+    margin: 10px;
+    opacity: ${props => props.loading ? 0.5 : 1.0};
 `;
+
 
 
